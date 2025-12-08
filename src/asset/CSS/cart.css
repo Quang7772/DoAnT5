@@ -1,0 +1,140 @@
+/* ===== PAGE ===== */
+.cart-container {
+  padding: 30px;
+  max-width: 1100px;
+  margin: auto;
+  background: #fff;
+}
+
+/* ===== TITLE ===== */
+.cart-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* ===== EMPTY CART ===== */
+.empty-cart {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.empty-cart button {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ===== TABLE ===== */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.cart-table th {
+  background: #f2f2f2;
+  padding: 12px;
+}
+
+.cart-table td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+/* ===== PRODUCT ROW ===== */
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== IMAGE ===== */
+.cart-img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+}
+
+/* ===== QUANTITY BUTTON ===== */
+.qty-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.qty-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.qty-btn:hover {
+  background: #e4e4e4;
+}
+
+/* ===== DELETE BUTTON ===== */
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: red;
+  font-size: 18px;
+}
+
+/* ===== SUMMARY ===== */
+.cart-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.continue-btn {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.checkout {
+  text-align: right;
+}
+
+.total-price {
+  color: #d32f2f;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ===== PAY BUTTON ===== */
+.pay-btn {
+  padding: 12px 25px;
+  background: #ff424e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.25s;
+}
+
+.pay-btn:hover {
+  opacity: 0.85;
+}

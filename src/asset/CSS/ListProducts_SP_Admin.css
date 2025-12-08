@@ -1,0 +1,130 @@
+/* ====== Container ====== */
+.container {
+  max-width: 1150px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  font-family: "Inter", sans-serif;
+}
+
+/* ====== Title ====== */
+h2 {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+/* ====== Table Action (Add button on top) ====== */
+.table-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+}
+
+.btn.green {
+  background: #22c55e;
+  color: white;
+}
+
+.btn.green:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+}
+
+/* ====== Buttons ====== */
+.btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.btn.yellow {
+  background: #f59e0b;
+  color: white;
+}
+
+.btn.yellow:hover {
+  background: #d97706;
+  transform: translateY(-2px);
+}
+
+.btn.red {
+  background: #ef4444;
+  color: white;
+}
+
+.btn.red:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* ====== Product Table ====== */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.product-table thead {
+  background: #1e40af;
+  color: white;
+}
+
+.product-table th,
+.product-table td {
+  padding: 14px 16px;
+  font-size: 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.product-table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.product-table tbody tr:hover {
+  background: #f1f5f9;
+  transition: 0.2s;
+}
+
+/* ====== Thumbnail Image ====== */
+.thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 800px) {
+  .product-table th:nth-child(3),
+  .product-table td:nth-child(3),
+  .product-table th:nth-child(4),
+  .product-table td:nth-child(4) {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}

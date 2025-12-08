@@ -1,0 +1,239 @@
+/* =============== RESET =============== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* =============== CONTAINER =============== */
+.container {
+  width: 90%;
+  max-width: 1250px;
+  margin: auto;
+}
+
+/* =============== TOP BAR =============== */
+.top-bar {
+  background: #e4002b;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 14px;
+}
+
+/* =============== HEADER =============== */
+.shop-header {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+/* Logo + Search + User */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.logo-text {
+  font-size: 26px;
+  font-weight: bold;
+  color: #d1001f;
+}
+
+.logo-text span {
+  color: #333;
+}
+
+/* === SEARCH BAR === */
+.search-area {
+  display: flex;
+  width: 38%;
+}
+
+.search-area input {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px 0 0 6px;
+  outline: none;
+}
+
+.search-area button {
+  padding: 9px 16px;
+  border: none;
+  background: #d1001f;
+  color: white;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* === USER AREA === */
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-btn,
+.login-btn,
+.logout-btn {
+  background: #d1001f;
+  color: #fff;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.cart-btn:hover,
+.login-btn:hover,
+.logout-btn:hover {
+  background: #a80018;
+}
+
+/* =============== MENU THỨ 2 =============== */
+.menubar {
+  background: #fafafa;
+  padding: 6px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.menubar-left {
+  display: flex;
+  gap: 22px;
+}
+
+.menu-item {
+  font-size: 15px;
+  font-weight: 500;
+  color: #444;
+  transition: 0.2s;
+}
+
+.menu-item:hover {
+  color: #d1001f;
+}
+
+/* =============== NAV BAR =============== */
+.nav-bar {
+  background: #d1001f;
+  padding: 8px 0;
+}
+
+.nav-bar ul {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+}
+
+.nav-bar a {
+  color: white;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.nav-bar a:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* =============== MAIN CONTENT =============== */
+.shop-content {
+  min-height: 450px;
+  padding: 20px 0;
+}
+
+/* =============== FOOTER =============== */
+.shop-footer {
+  background: #111;
+  color: #ddd;
+  padding: 35px 0 20px;
+  margin-top: 25px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.footer-col {
+  width: 23%;
+  min-width: 200px;
+}
+
+.footer-col h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.footer-col p,
+.footer-col li {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer-col li:hover {
+  color: #ff3c3c;
+}
+
+.social-icons a {
+  margin-right: 12px;
+  font-size: 20px;
+  color: #ddd;
+}
+
+.social-icons a:hover {
+  color: #ff3c3c;
+}
+
+/* =============== FOOTER BOTTOM =============== */
+.footer-bottom {
+  text-align: center;
+  padding-top: 12px;
+  font-size: 14px;
+  color: #777;
+  border-top: 1px solid #333;
+}
+
+/* =============== RESPONSIVE =============== */
+@media (max-width: 900px) {
+  .main-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .search-area {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-bar ul {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .footer-col {
+    width: 45%;
+  }
+}
