@@ -1,222 +1,125 @@
-/* ========================================= */
-/* =========== BIẾN VÀ CƠ SỞ ============ */
-/* ========================================= */
-
-:root {
-  --primary-color: #007bff; /* Xanh dương */
-  --accent-color: #e63946; /* Đỏ/Giá */
-  --background-color: #f8f9fa;
-  --text-dark: #222;
-  --text-light: #fff;
-  --border-radius-card: 14px;
-  --transition-speed: 0.25s;
-}
-
-/* ========================================= */
-/* =========== TRANG CHUNG ============ */
-/* ========================================= */
-
-.product-list-page {
+/* ==============================
+   WRAPPER – PAGE LAYOUT
+============================== */
+.product-page-wrapper {
   padding: 40px 20px;
-  background-color: var(--background-color);
+  background: #f8f9fa;
   min-height: 100vh;
+  animation: fadeIn 0.3s ease;
 }
 
-.product-list-title {
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-title {
   text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 40px;
-  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #333;
   font-weight: 700;
-  letter-spacing: 0.5px;
 }
 
-.no-products-message {
+.empty-text {
   text-align: center;
-  font-size: 1.2rem;
-  color: #555;
-  padding: 50px 0;
+  font-size: 1.1rem;
+  color: #444;
 }
 
-/* ========================================= */
-/* =========== LOADING STATE ============ */
-/* ========================================= */
-
-.loading-container {
-  text-align: center;
-  margin-top: 50px;
-  font-size: 1.5rem;
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-.loading-spinner {
-  animation: spin 1s linear infinite;
-  margin-right: 10px;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* ========================================= */
-/* =========== GRID & CARD ============ */
-/* ========================================= */
-
+/* ==============================
+   PRODUCT GRID
+============================== */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(250px, 1fr)
-  ); /* Rộng hơn 1 chút */
-  gap: 30px; /* Khoảng cách lớn hơn */
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* ==============================
+   PRODUCT CARD
+============================== */
 .product-card {
-  border-radius: var(--border-radius-card);
+  background: #fff;
+  border-radius: 14px;
   overflow: hidden;
-  background-color: var(--text-light);
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: all var(--transition-speed) ease;
-  display: flex;
-  flex-direction: column;
-  min-height: 400px; /* Đảm bảo chiều cao đồng nhất */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.25s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-8px); /* Hiệu ứng nổi bật hơn */
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.17);
 }
 
-/* Hình ảnh */
-.product-image-wrapper {
+/* ==============================
+   PRODUCT IMAGE
+============================== */
+.product-img-box {
   width: 100%;
   height: 230px;
-  background-color: #f3f3f3;
+  background: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
 }
 
-.product-image {
+.product-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-speed) ease;
+  transition: transform 0.3s ease;
 }
 
-.product-card:hover .product-image {
-  transform: scale(1.08); /* Phóng to nhẹ khi hover card */
+.product-card:hover .product-img {
+  transform: scale(1.05);
 }
 
-/* Thông tin */
+/* ==============================
+   PRODUCT INFO
+============================== */
 .product-info {
   padding: 16px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  text-align: center;
 }
 
 .product-title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: var(--text-dark);
+  color: #222;
   margin-bottom: 8px;
+  min-height: 40px;
   line-height: 1.3;
-  /* Giới hạn 2 dòng */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  min-height: 44px;
 }
 
 .product-price {
-  color: var(--accent-color);
+  color: #e63946;
+  font-size: 1.1rem;
   font-weight: 700;
-  font-size: 1.3rem;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .product-rating {
+  font-size: 0.9rem;
   color: #666;
-  font-size: 0.95rem;
-  margin: 0 0 15px 0;
-  display: flex;
-  align-items: center;
 }
 
-.star-icon {
-  color: #ffda06;
-  margin-right: 5px;
-}
-
-/* Nút hành động */
-.product-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: auto; /* Đẩy xuống cuối card */
-}
-
-.product-actions button {
-  flex: 1;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color var(--transition-speed);
-}
-
-.btn-add-cart {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-}
-
-.btn-add-cart:hover {
-  background-color: #0056b3;
-}
-
-.btn-view-detail {
-  background-color: #ccc;
-  color: var(--text-dark);
-}
-
-.btn-view-detail:hover {
-  background-color: #aaa;
-}
-
-/* ========================================= */
-/* =========== RESPONSIVE ============ */
-/* ========================================= */
-
-@media (max-width: 768px) {
-  .product-list-title {
-    font-size: 1.8rem;
-  }
-  .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (max-width: 576px) {
-  .product-grid {
-    grid-template-columns: 1fr; /* 1 cột trên điện thoại nhỏ */
-    gap: 15px;
-  }
-  .product-card {
-    min-height: auto;
-  }
-  .product-image-wrapper {
-    height: 200px;
-  }
+/* ==============================
+   LOADING
+============================== */
+.loading {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 1.3rem;
+  color: #333;
 }

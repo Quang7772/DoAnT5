@@ -3,18 +3,22 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 const Layout = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
 
-  // Kiểm tra đăng nhập
   useEffect(() => {
     const userData = localStorage.getItem("user");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
+    if (userData) setUser(JSON.parse(userData));
+
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 60);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Đăng xuất
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
@@ -24,18 +28,18 @@ const Layout = () => {
   return (
     <div className="layout-shop">
       {/* ================= HEADER ================= */}
-      <header className="shop-header">
-        {/* Thanh thông báo */}
+      <header className={`shop-header ${scrolled ? "scrolled" : ""}`}>
+        {/* -------- TOP BAR -------- */}
         <div className="top-bar">
-          <span>Miễn phí giao hàng cho đơn trên 500.000đ 🚚</span>
+          <span>Miễn phí giao hàng cho đơn từ 500.000đ 🚚</span>
         </div>
 
-        {/* Header chính */}
+        {/* -------- MAIN HEADER -------- */}
         <div className="main-header container">
           {/* LOGO */}
           <div className="logo-area">
             <Link to="/" className="logo-text">
-              🛍️ <span>QDH</span> <strong>Shop</strong>
+              🛍️ <span>QDH</span> Shop
             </Link>
           </div>
 
@@ -45,7 +49,7 @@ const Layout = () => {
             <button>Tìm kiếm</button>
           </div>
 
-          {/* MENU PHẢI */}
+          {/* USER AREA */}
           <div className="user-area">
             <Link to="/cart" className="cart-btn">
               🛒 Giỏ hàng
@@ -56,17 +60,18 @@ const Layout = () => {
                 🚪 Thoát
               </button>
             ) : (
-              <Link to="/admin/products" className="login-btn">
+              <Link to="/login" className="login-btn">
                 🔑 Đăng nhập
               </Link>
             )}
+
             <Link to="/chat" className="menu-item">
-              🤖 Chat với AI
+              🤖 Chat AI
             </Link>
           </div>
         </div>
 
-        {/* THANH DANH MỤC */}
+        {/* -------- NAV BAR -------- */}
         <nav className="nav-bar">
           <ul>
             <li>
@@ -99,8 +104,8 @@ const Layout = () => {
           <div className="footer-col">
             <h4>Về QDH Shop</h4>
             <p>
-              QDH Shop – nơi mua sắm đáng tin cậy, chuyên cung cấp các sản phẩm
-              chất lượng, giá tốt và dịch vụ chu đáo.
+              QDH Shop – nơi mua sắm đáng tin cậy, cung cấp sản phẩm chất lượng,
+              giá tốt và dịch vụ tận tâm.
             </p>
           </div>
 

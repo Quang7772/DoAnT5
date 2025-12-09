@@ -15,7 +15,7 @@ const ProductDetail = () => {
 
   const { addToCart } = useCart();
 
-  // ⭐ Format tiền
+  // ⭐ Format tiền VNĐ
   const formatPrice = (p) =>
     Number(p).toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 
@@ -32,6 +32,7 @@ const ProductDetail = () => {
           .single();
 
         if (error) throw error;
+
         setProduct(data);
 
         // ⭐ Lấy sản phẩm liên quan theo category
@@ -43,7 +44,7 @@ const ProductDetail = () => {
             .neq("id", id)
             .limit(6);
 
-          setRelatedProducts(related);
+          setRelatedProducts(related || []);
         }
       } catch (err) {
         setError("Không thể tải sản phẩm.");
@@ -81,12 +82,12 @@ const ProductDetail = () => {
       </button>
 
       <div className="detail-wrapper">
-        {/* Hình ảnh */}
+        {/* Hình ảnh sản phẩm */}
         <div className="detail-image">
           <img src={product.image} alt={product.title} />
         </div>
 
-        {/* Thông tin */}
+        {/* Thông tin sản phẩm */}
         <div className="detail-info">
           <h2>{product.title}</h2>
 
@@ -100,7 +101,7 @@ const ProductDetail = () => {
             {product.description || "Chưa có mô tả cho sản phẩm này."}
           </p>
 
-          {/* ⭐ Chọn số lượng */}
+          {/* Chọn số lượng */}
           <div className="qty-box">
             <label>Số lượng:</label>
             <input
@@ -111,7 +112,7 @@ const ProductDetail = () => {
             />
           </div>
 
-          {/* ⭐ Nút thêm vào giỏ */}
+          {/* Nút thêm vào giỏ */}
           <button
             className="btn-add-cart"
             onClick={() => {
@@ -129,7 +130,7 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* ⭐ Sản phẩm liên quan */}
+      {/* Sản phẩm liên quan */}
       <h3 className="related-title">🔍 Sản phẩm liên quan</h3>
 
       <div className="related-grid">
@@ -137,7 +138,7 @@ const ProductDetail = () => {
           <div
             key={item.id}
             className="related-card"
-            onClick={() => navigate(`/product/${item.id}`)}
+            onClick={() => navigate(`/detail/${item.id}`)}
           >
             <img src={item.image} alt={item.title} />
             <p className="related-name">{item.title}</p>

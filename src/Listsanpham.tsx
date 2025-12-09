@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "./supabaseClient";
-import "./asset/CSS/ProductList.css";
+import "./asset/CSS/listsanpham.css";
 
 interface Product {
   id: number;
@@ -38,137 +38,35 @@ const ListProducts_SP: React.FC = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div
-        style={{ textAlign: "center", marginTop: "50px", fontSize: "1.3rem" }}
-      >
-        ⏳ Đang tải sản phẩm...
-      </div>
-    );
+    return <div className="loading">⏳ Đang tải sản phẩm...</div>;
   }
 
   return (
-    <div
-      style={{
-        padding: "40px 20px",
-        backgroundColor: "#f8f9fa",
-        minHeight: "100vh",
-      }}
-    >
-      <h2
-        style={{
-          textAlign: "center",
-          fontSize: "2rem",
-          marginBottom: "30px",
-          color: "#333",
-          fontWeight: 700,
-          letterSpacing: "0.5px",
-        }}
-      >
-        🛍️ Danh sách sản phẩm
-      </h2>
+    <div className="product-page-wrapper">
+      <h2 className="page-title">🛍️ Danh sách sản phẩm</h2>
 
-      {/* Nếu không có sản phẩm */}
       {listProduct.length === 0 ? (
-        <p style={{ textAlign: "center", fontSize: "1.1rem", color: "#555" }}>
-          📭 Không có sản phẩm nào!
-        </p>
+        <p className="empty-text">📭 Không có sản phẩm nào!</p>
       ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-            gap: "24px",
-            maxWidth: "1200px",
-            margin: "0 auto",
-          }}
-        >
+        <div className="product-grid">
           {listProduct.map((p) => (
             <div
               key={p.id}
+              className="product-card"
               onClick={() => navigate(`/detail/${p.id}`)}
-              style={{
-                borderRadius: "14px",
-                overflow: "hidden",
-                backgroundColor: "#fff",
-                cursor: "pointer",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                transition: "all 0.25s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-6px)";
-                e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
-              }}
             >
-              {/* Ảnh sản phẩm */}
-              <div
-                style={{
-                  width: "100%",
-                  height: "230px",
-                  backgroundColor: "#f3f3f3",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  overflow: "hidden",
-                }}
-              >
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    transition: "transform 0.3s ease",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.05)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
-                />
+              <div className="product-img-box">
+                <img src={p.image} alt={p.title} className="product-img" />
               </div>
 
-              {/* Thông tin sản phẩm */}
-              <div style={{ padding: "16px" }}>
-                <h4
-                  style={{
-                    fontSize: "1.05rem",
-                    fontWeight: 600,
-                    color: "#222",
-                    marginBottom: "8px",
-                    lineHeight: "1.3",
-                  }}
-                >
-                  {p.title}
-                </h4>
-                <p
-                  style={{
-                    color: "#e63946",
-                    fontWeight: 700,
-                    fontSize: "1.1rem",
-                    marginBottom: "6px",
-                  }}
-                >
+              <div className="product-info">
+                <h4 className="product-title">{p.title}</h4>
+
+                <p className="product-price">
                   {p.price.toLocaleString("vi-VN")}₫
                 </p>
 
-                <p
-                  style={{
-                    color: "#666",
-                    fontSize: "0.9rem",
-                    margin: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "4px",
-                  }}
-                >
+                <p className="product-rating">
                   ⭐ {p.rating_rate ?? 0} ({p.rating_count ?? 0} đánh giá)
                 </p>
               </div>

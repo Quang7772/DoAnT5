@@ -1,363 +1,231 @@
-/* ========================================= */
-/* =========== 1. BIẾN & CƠ SỞ ============ */
-/* ========================================= */
-
-:root {
-  --primary-color: #007bff; /* Xanh dương mạnh mẽ, hiện đại */
-  --secondary-color: #1a3266; /* Màu chữ chính, nền footer */
-  --accent-color: #ffc107; /* Màu vàng cam cho điểm nhấn (search, giỏ hàng) */
-  --background-color: #f8f9fa; /* Nền trắng xám nhẹ */
-  --text-dark: #343a40;
-  --text-light: #ffffff;
-  --font-family: "Poppins", sans-serif;
-  --transition-speed: 0.3s;
-  --border-radius: 8px;
-}
-
+/* ================================
+   ⭐ RESET + CƠ BẢN
+================================ */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  font-family: var(--font-family);
-  background-color: var(--background-color);
-  color: var(--text-dark);
-  line-height: 1.6;
+  font-family: "Roboto", sans-serif;
+  background: #fafafa;
+  color: #333;
 }
 
-.layout-shop {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 15px;
+  width: 95%;
+  max-width: 1250px;
+  margin: auto;
 }
 
-/* ========================================= */
-/* ============= 2. HEADER ================= */
-/* ========================================= */
-
-.shop-header {
-  background-color: var(--text-light);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-/* 2.1. Top Bar */
+/* ================================
+   ⭐ TOP BAR 
+================================ */
 .top-bar {
-  background-color: var(--secondary-color);
-  color: var(--text-light);
+  background: #ffb300;
   text-align: center;
-  padding: 8px 0;
-  font-size: 0.875rem;
-  font-weight: 500;
+  padding: 7px 0;
+  font-size: 14px;
+  color: #fff;
 }
 
-/* 2.2. Main Header */
+/* ================================
+   ⭐ HEADER 
+================================ */
+.shop-header {
+  background: #fff;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  transition: all 0.25s ease;
+  position: relative; /* không fixed */
+  z-index: 50;
+}
+
+.shop-header.scrolled {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
 .main-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 0;
-  gap: 20px;
+  padding: 16px 0;
+  transition: padding 0.25s ease;
 }
 
-/* Logo */
-.logo-area {
-  flex-shrink: 0;
+.shop-header.scrolled .main-header {
+  padding: 8px 0;
 }
+
+/* --- Logo --- */
 .logo-text {
-  text-decoration: none;
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--secondary-color);
-}
-.logo-text span {
-  color: var(--primary-color);
-}
-.logo-text strong {
-  font-weight: 900;
+  font-size: 26px;
+  font-weight: 700;
+  color: #ff4d00;
 }
 
-/* Search */
+.logo-text span {
+  color: #222;
+}
+
+/* --- Search box --- */
 .search-area {
   display: flex;
-  flex-grow: 1;
-  max-width: 500px;
-  border: 2px solid var(--primary-color);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-}
-.search-area input {
-  flex-grow: 1;
-  border: none;
-  padding: 10px 15px;
-  font-size: 1rem;
-  outline: none;
-}
-.search-area button {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color var(--transition-speed);
-}
-.search-area button:hover {
-  background-color: #0056b3;
+  align-items: center;
+  gap: 6px;
 }
 
-/* User Area */
+.search-area input {
+  width: 350px;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+  outline: none;
+  font-size: 15px;
+}
+
+.search-area input:focus {
+  border-color: #ff5500;
+  box-shadow: 0 0 4px rgba(255, 85, 0, 0.3);
+}
+
+.search-area button {
+  background: #ff5500;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.search-area button:hover {
+  background: #e84200;
+}
+
+/* --- User Area --- */
 .user-area {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
+  gap: 15px;
 }
 
 .cart-btn,
 .login-btn,
 .logout-btn,
 .menu-item {
-  text-decoration: none;
-  padding: 8px 15px;
-  border-radius: var(--border-radius);
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: all var(--transition-speed);
-  cursor: pointer;
-  border: 1px solid transparent;
+  background: #f3f3f3;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.25s ease;
 }
 
-.cart-btn {
-  background-color: var(--accent-color);
-  color: var(--text-dark);
-}
-.cart-btn:hover {
-  background-color: #e0a800;
-  transform: translateY(-1px);
-}
-
-.login-btn {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-}
-.login-btn:hover {
-  background-color: #0056b3;
-  transform: translateY(-1px);
-}
-
-.logout-btn {
-  background-color: #dc3545; /* Màu đỏ cho nút thoát */
-  color: var(--text-light);
-  border: none;
-}
-.logout-btn:hover {
-  background-color: #c82333;
-  transform: translateY(-1px);
-}
-
-.menu-item {
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
-}
+.cart-btn:hover,
+.login-btn:hover,
+.logout-btn:hover,
 .menu-item:hover {
-  background-color: var(--primary-color);
-  color: var(--text-light);
+  background: #ff5500;
+  color: #fff;
 }
 
-/* 2.3. Nav Bar (Danh mục) */
+/* ================================
+   ⭐ NAV BAR 
+================================ */
 .nav-bar {
-  background-color: var(--secondary-color);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: #fdfdfd;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #ececec;
+  margin-top: 5px;
 }
+
 .nav-bar ul {
   list-style: none;
   display: flex;
+  gap: 30px;
+  padding: 12px 0;
   justify-content: center;
-  margin: 0;
-  padding: 0;
-}
-.nav-bar li a {
-  display: block;
-  padding: 12px 20px;
-  text-decoration: none;
-  color: #e0e0e0;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: all var(--transition-speed);
-}
-.nav-bar li a:hover {
-  background-color: var(--primary-color);
-  color: var(--text-light);
 }
 
-/* ========================================= */
-/* ============= 3. MAIN CONTENT =========== */
-/* ========================================= */
+.nav-bar ul li a {
+  font-size: 15px;
+  color: #333;
+  padding: 6px 0;
+  transition: 0.25s ease;
+}
 
+.nav-bar ul li a:hover {
+  color: #ff5500;
+  border-bottom: 2px solid #ff5500;
+}
+
+/* ================================
+   ⭐ MAIN CONTENT
+================================ */
 .shop-content {
-  flex-grow: 1;
-  padding: 30px 0; /* Khoảng đệm cho nội dung chính */
+  padding: 30px 0;
+  min-height: 60vh;
 }
 
-/* ========================================= */
-/* ============= 4. FOOTER ================= */
-/* ========================================= */
-
+/* ================================
+   ⭐ FOOTER
+================================ */
 .shop-footer {
-  background-color: var(--secondary-color);
-  color: #b0c4de;
+  background: #222;
+  color: #ddd;
   padding-top: 40px;
+  margin-top: 40px;
 }
 
 .footer-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 30px;
-  padding-bottom: 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.footer-col {
-  flex-basis: calc(25% - 20px); /* Chia thành 4 cột */
-  min-width: 200px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
 }
 
 .footer-col h4 {
-  color: var(--accent-color);
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-  font-weight: 700;
-  position: relative;
-}
-.footer-col h4::after {
-  /* Gạch chân nhỏ dưới tiêu đề */
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -5px;
-  height: 3px;
-  width: 50px;
-  background-color: var(--primary-color);
-  border-radius: 5px;
+  margin-bottom: 15px;
+  color: #fff;
+  font-size: 17px;
 }
 
 .footer-col p,
-.footer-col ul {
-  font-size: 0.95rem;
+.footer-col li a {
+  color: #ccc;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .footer-col ul {
   list-style: none;
-  padding: 0;
 }
 
-.footer-col ul li a {
-  color: #b0c4de;
-  text-decoration: none;
-  display: block;
-  padding: 5px 0;
-  transition: color var(--transition-speed);
-}
-.footer-col ul li a:hover {
-  color: var(--primary-color);
-  padding-left: 5px; /* Thêm hiệu ứng hover nhẹ */
+.footer-col li {
+  margin-bottom: 8px;
 }
 
-/* Social Icons */
+.footer-col li a:hover {
+  color: #ffb300;
+}
+
 .social-icons a {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: var(--text-light);
-  margin: 0 8px 8px 0;
-  border-radius: 50%;
-  transition: all var(--transition-speed);
-}
-.social-icons a:hover {
-  background-color: var(--primary-color);
-  transform: translateY(-2px);
+  margin-right: 12px;
+  font-size: 18px;
+  color: #fff;
 }
 
-/* Footer Bottom */
 .footer-bottom {
-  text-align: center;
+  margin-top: 30px;
   padding: 15px 0;
-  font-size: 0.85rem;
-  color: #99a9bf;
-}
-
-/* ========================================= */
-/* ============= 5. RESPONSIVE ============= */
-/* ========================================= */
-
-@media (max-width: 992px) {
-  .main-header {
-    flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
-  }
-  .logo-area {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  .search-area {
-    max-width: 100%;
-    margin-bottom: 15px;
-    order: 3; /* Đẩy search xuống dưới */
-  }
-  .user-area {
-    order: 2;
-    justify-content: center;
-    width: 100%;
-  }
-  .nav-bar ul {
-    justify-content: flex-start;
-    overflow-x: auto; /* Cho phép cuộn ngang menu */
-  }
-  .nav-bar li {
-    flex-shrink: 0;
-  }
-
-  .footer-col {
-    flex-basis: calc(50% - 20px); /* 2 cột trên tablet */
-  }
-}
-
-@media (max-width: 576px) {
-  .main-header {
-    padding: 10px 0;
-  }
-  .user-area {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .cart-btn,
-  .login-btn,
-  .logout-btn,
-  .menu-item {
-    padding: 6px 10px;
-    font-size: 0.85rem;
-  }
-
-  .footer-col {
-    flex-basis: 100%; /* 1 cột trên mobile */
-  }
-  .footer-container {
-    gap: 20px;
-  }
+  text-align: center;
+  color: #bbb;
+  border-top: 1px solid #444;
+  font-size: 14px;
 }
