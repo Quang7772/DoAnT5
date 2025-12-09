@@ -1,153 +1,208 @@
+import "./asset/CSS/layout.css";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { supabase } from "./supabaseClient";
 import { useCart } from "./CartContext";
-import "./asset/CSS/Chitietsanpham.css";
 
-const ProductDetail = () => {
-  const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [relatedProducts, setRelatedProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [qty, setQty] = useState(1);
-  const [error, setError] = useState("");
+const Layout = () => {
+  const [user, setUser] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const { cartItems } = useCart();
   const navigate = useNavigate();
 
-  const { addToCart } = useCart();
-
-  // ⭐ Format tiền VNĐ
-  const formatPrice = (p) =>
-    Number(p).toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-
-  // ⭐ Lấy sản phẩm + sản phẩm liên quan
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        setLoading(true);
+    const userData = localStorage.getItem("user");
+    if (userData) setUser(JSON.parse(userData));
 
-        const { data, error } = await supabase
-          .from("product1")
-          .select("*")
-          .eq("id", id)
-          .single();
-
-        if (error) throw error;
-
-        setProduct(data);
-
-        // ⭐ Lấy sản phẩm liên quan theo category
-        if (data.category) {
-          const { data: related } = await supabase
-            .from("product1")
-            .select("*")
-            .eq("category", data.category)
-            .neq("id", id)
-            .limit(6);
-
-          setRelatedProducts(related || []);
-        }
-      } catch (err) {
-        setError("Không thể tải sản phẩm.");
-      } finally {
-        setLoading(false);
-      }
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 60);
     };
 
-    fetchProduct();
-  }, [id]);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  if (loading)
-    return (
-      <div className="loading-box">
-        <div className="loader"></div>
-        <p>Đang tải sản phẩm...</p>
-      </div>
-    );
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/login");
+  };
 
-  if (error)
-    return (
-      <div className="error-box">
-        <p>{error}</p>
-        <button onClick={() => navigate(-1)}>← Quay lại</button>
-      </div>
-    );
-
-  if (!product) return <p>Không tìm thấy sản phẩm.</p>;
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchInput.trim()) {
+      // Optional: Add search functionality
+      navigate(`/listsanpham?search=${searchInput}`);
+    }
+  };
 
   return (
-    <div className="detail-container">
-      {/* Nút quay lại */}
-      <button className="btn-back" onClick={() => navigate(-1)}>
-        ← Quay lại danh sách
-      </button>
-
-      <div className="detail-wrapper">
-        {/* Hình ảnh sản phẩm */}
-        <div className="detail-image">
-          <img src={product.image} alt={product.title} />
+    <div className="layout-shop">
+      {/* ================= HEADER ================= */}
+      <header className={`shop-header ${scrolled ? "scrolled" : ""}`}>
+        {/* -------- TOP BAR -------- */}
+        <div className="top-bar">
+          <span>✨ Miễn phí giao hàng cho đơn từ 500.000đ 🚚</span>
         </div>
 
-        {/* Thông tin sản phẩm */}
-        <div className="detail-info">
-          <h2>{product.title}</h2>
+        {/* -------- MAIN HEADER -------- */}
+        <div className="main-header container">
+          {/* LOGO */}
+          <div className="logo-area">
+            <Link to="/" className="logo-text">
+              🛍️ <span>QDH</span> Shop
+            </Link>
+          </div>
 
-          <p className="detail-price">{formatPrice(product.price)}</p>
-
-          <p className="detail-rating">
-            ⭐ {product.rating_rate ?? 5} ({product.rating_count ?? 1} đánh giá)
-          </p>
-
-          <p className="detail-desc">
-            {product.description || "Chưa có mô tả cho sản phẩm này."}
-          </p>
-
-          {/* Chọn số lượng */}
-          <div className="qty-box">
-            <label>Số lượng:</label>
+          {/* SEARCH */}
+          <form className="search-area" onSubmit={handleSearch}>
             <input
-              type="number"
-              min={1}
-              value={qty}
-              onChange={(e) => setQty(Number(e.target.value))}
+              type="text"
+              placeholder="Tìm sản phẩm, thương hiệu..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
-          </div>
+            <button type="submit">🔍 Tìm kiếm</button>
+          </form>
 
-          {/* Nút thêm vào giỏ */}
-          <button
-            className="btn-add-cart"
-            onClick={() => {
-              addToCart({
-                ...product,
-                qty,
-                id: Number(product.id),
-                price: Number(product.price),
-              });
-              alert("Đã thêm vào giỏ hàng!");
-            }}
-          >
-            🛒 Thêm vào giỏ hàng
-          </button>
+          {/* USER AREA */}
+          <div className="user-area">
+            <Link to="/cart" className="cart-btn">
+              🛒 Giỏ hàng
+              {cartItems.length > 0 && (
+                <span className="cart-badge">{cartItems.length}</span>
+              )}
+            </Link>
+
+            {user ? (
+              <>
+                <span className="user-name">👤 {user.username}</span>
+                <button onClick={handleLogout} className="logout-btn">
+                  🚪 Thoát
+                </button>
+              </>
+            ) : (
+              <Link to="/login" className="login-btn">
+                🔑 Đăng nhập
+              </Link>
+            )}
+
+            <Link to="/chat" className="menu-item chat-btn">
+              🤖 Chat AI
+            </Link>
+          </div>
         </div>
-      </div>
 
-      {/* Sản phẩm liên quan */}
-      <h3 className="related-title">🔍 Sản phẩm liên quan</h3>
+        {/* -------- NAV BAR -------- */}
+        <nav className="nav-bar">
+          <ul>
+            <li>
+              <Link to="/">🏠 Trang chủ</Link>
+            </li>
+            <li>
+              <Link to="/listsanpham">🛍️ Sản phẩm</Link>
+            </li>
+            <li>
+              <Link to="/trang2">📞 Liên hệ</Link>
+            </li>
+            <li>
+              <Link to="/trang1">ℹ️ Giới thiệu</Link>
+            </li>
+            <li>
+              <Link to="/admin/products" className="admin-link">
+                ⚙️ Quản trị
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
 
-      <div className="related-grid">
-        {relatedProducts.map((item) => (
-          <div
-            key={item.id}
-            className="related-card"
-            onClick={() => navigate(`/detail/${item.id}`)}
-          >
-            <img src={item.image} alt={item.title} />
-            <p className="related-name">{item.title}</p>
-            <p className="related-price">{formatPrice(item.price)}</p>
+      {/* ================= MAIN CONTENT ================= */}
+      <main className="shop-content">
+        <Outlet />
+      </main>
+
+      {/* ================= FOOTER ================= */}
+      <footer className="shop-footer">
+        <div className="footer-container container">
+          <div className="footer-col">
+            <h4>💎 Về QDH Shop</h4>
+            <p>
+              QDH Shop – nơi mua sắm đáng tin cậy, cung cấp sản phẩm chất lượng,
+              giá tốt và dịch vụ tận tâm cho hàng triệu khách hàng.
+            </p>
           </div>
-        ))}
-      </div>
+
+          <div className="footer-col">
+            <h4>🔗 Liên kết nhanh</h4>
+            <ul>
+              <li>
+                <Link to="/">Trang chủ</Link>
+              </li>
+              <li>
+                <Link to="/listsanpham">Sản phẩm</Link>
+              </li>
+              <li>
+                <Link to="/cart">Giỏ hàng</Link>
+              </li>
+              <li>
+                <Link to="/login">Đăng nhập</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className="footer-col">
+            <h4>📍 Liên hệ</h4>
+            <p>📍 123 Nguyễn Trãi, Hà Nội</p>
+            <p>📞 (024) 1234 5678</p>
+            <p>✉️ support@qdhshop.vn</p>
+          </div>
+
+          <div className="footer-col">
+            <h4>🤝 Kết nối với chúng tôi</h4>
+            <div className="social-icons">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Facebook"
+              >
+                <i className="fab fa-facebook-f"></i>
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Instagram"
+              >
+                <i className="fab fa-instagram"></i>
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="YouTube"
+              >
+                <i className="fab fa-youtube"></i>
+              </a>
+              <a
+                href="https://tiktok.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="TikTok"
+              >
+                <i className="fab fa-tiktok"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          © 2025 QDH Shop — All rights reserved. ❤️
+        </div>
+      </footer>
     </div>
   );
 };
 
-export default ProductDetail;
+export default Layout;
