@@ -3,7 +3,7 @@ import "./asset/CSS/layout.css";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useCart } from "./CartContext";
-import { Container, Navbar, Nav, Form, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 const Layout = () => {
   const [user, setUser] = useState(null);
@@ -40,91 +40,82 @@ const Layout = () => {
   return (
     <div className="layout-shop">
       {/* ================= HEADER ================= */}
-      <header className={`shop-header ${scrolled ? "scrolled" : ""}`}>
-        {/* TOP BAR */}
-        <div className="top-bar">
-          <Container>
-            <span>✨ Miễn phí giao hàng cho đơn từ 500.000đ 🚚</span>
-          </Container>
-        </div>
-
-        {/* MAIN HEADER */}
-        <Container className="main-header-wrapper">
-          <div className="main-header">
+      <header className={`header-modern shadow-sm ${scrolled ? "sticky" : ""}`}>
+        <Container>
+          <div className="d-flex align-items-center justify-content-between py-2">
             {/* LOGO */}
-            <div className="logo-area">
-              <Link to="/" className="logo-text">
-                🛍️ <span>QDH</span> Shop
-              </Link>
-            </div>
+            <Link to="/" className="logo-modern">
+              🛍️ <span>QDH</span> Shop
+            </Link>
 
-            {/* SEARCH */}
-            <form className="search-area" onSubmit={handleSearch}>
+            {/* SEARCH BOX */}
+            <form className="search-box d-flex" onSubmit={handleSearch}>
               <input
                 type="text"
                 placeholder="Tìm sản phẩm, thương hiệu..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
               />
-              <button type="submit">🔍 Tìm kiếm</button>
+              <button type="submit">🔍</button>
             </form>
 
-            {/* USER AREA */}
-            <div className="user-area">
-              <Link to="/cart" className="cart-btn">
-                🛒 Giỏ hàng
+            {/* ACTION AREA */}
+            <div className="d-flex align-items-center gap-3 action-area">
+              {/* CART */}
+              <Link to="/cart" className="icon-btn">
+                🛒
                 {cartItems.length > 0 && (
-                  <span className="cart-badge">{cartItems.length}</span>
+                  <span className="badge-cart">{cartItems.length}</span>
                 )}
               </Link>
 
+              {/* USER */}
               {user ? (
                 <>
                   <span className="user-name">👤 {user.username}</span>
-                  <button onClick={handleLogout} className="logout-btn">
-                    🚪 Thoát
+                  <button className="logout-btn" onClick={handleLogout}>
+                    Thoát
                   </button>
                 </>
               ) : (
-                <Link to="/login" className="login-btn">
-                  🔑 Đăng nhập
+                <Link to="/login" className="icon-btn">
+                  🔑
                 </Link>
               )}
 
-              <Link to="/chat" className="menu-item chat-btn">
-                🤖 Chat AI
+              {/* CHAT AI */}
+              <Link to="/chat" className="icon-btn">
+                🤖
               </Link>
             </div>
           </div>
         </Container>
-
-        {/* NAV BAR */}
-        <nav className="nav-bar">
-          <Container>
-            <ul>
-              <li>
-                <Link to="/">🏠 Trang chủ</Link>
-              </li>
-              <li>
-                <Link to="/listsanpham">🛍️ Sản phẩm</Link>
-              </li>
-              <li>
-                <Link to="/trang2">📞 Liên hệ</Link>
-              </li>
-              <li>
-                <Link to="/trang1">ℹ️ Giới thiệu</Link>
-              </li>
-              <li>
-                <Link to="/admin/products" className="admin-link">
-                  ⚙️ Quản trị
-                </Link>
-              </li>
-            </ul>
-          </Container>
-        </nav>
       </header>
 
-      {/* ================= MAIN CONTENT ================= */}
+      {/* ================= NAV BAR ================= */}
+      <nav className="nav-modern">
+        <Container>
+          <ul>
+            <li>
+              <Link to="/">🏠 Trang chủ</Link>
+            </li>
+            <li>
+              <Link to="/listsanpham">🛍️ Sản phẩm</Link>
+            </li>
+            <li>
+              <Link to="/trang2">📞 Liên hệ</Link>
+            </li>
+            <li>
+              <Link to="/trang1">ℹ️ Giới thiệu</Link>
+            </li>
+            <li>
+              <Link to="/admin/products">⚙️ Quản trị</Link>
+            </li>
+          </ul>
+        </Container>
+      </nav>
+
+      {/* ================= CONTENT ================= */}
       <main className="shop-content">
         <Outlet />
       </main>
@@ -136,8 +127,8 @@ const Layout = () => {
             <div className="footer-col">
               <h4>💎 Về QDH Shop</h4>
               <p>
-                QDH Shop – nơi mua sắm đáng tin cậy, cung cấp sản phẩm chất lượng,
-                giá tốt và dịch vụ tận tâm cho hàng triệu khách hàng.
+                QDH Shop – nơi mua sắm đáng tin cậy, cung cấp sản phẩm chất
+                lượng, giá tốt và dịch vụ tận tâm.
               </p>
             </div>
 
@@ -167,40 +158,12 @@ const Layout = () => {
             </div>
 
             <div className="footer-col">
-              <h4>🤝 Kết nối với chúng tôi</h4>
+              <h4>🤝 Kết nối</h4>
               <div className="social-icons">
-                <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="Facebook"
-                >
-                  <i className="fab fa-facebook-f"></i>
-                </a>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="Instagram"
-                >
-                  <i className="fab fa-instagram"></i>
-                </a>
-                <a
-                  href="https://youtube.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="YouTube"
-                >
-                  <i className="fab fa-youtube"></i>
-                </a>
-                <a
-                  href="https://tiktok.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="TikTok"
-                >
-                  <i className="fab fa-tiktok"></i>
-                </a>
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">YouTube</a>
+                <a href="#">TikTok</a>
               </div>
             </div>
           </div>
