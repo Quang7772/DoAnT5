@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles.css";
 
 import Home from "./Home";
@@ -32,6 +32,7 @@ const App: React.FC = () => {
             {/* Trang chính */}
             <Route index element={<ListProducts_SP />} />
             <Route path="chat" element={<ChatBox />} />
+            
             {/* Các trang khác */}
             <Route path="trang1" element={<Trang1 />} />
             <Route path="listsanpham" element={<Listsanpham />} />
@@ -39,13 +40,13 @@ const App: React.FC = () => {
             <Route path="/admin/edit/:id" element={<EditProduct />} />
             <Route path="sanpham/:id" element={<Chitietsanpham />} />
             <Route path="trang2" element={<Trang2 />} />
+            
+            {/* Giỏ hàng & Thanh toán */}
             <Route path="cart" element={<CartPage />} />
-
-            {/* ====== CHECKOUT ROUTES ====== */}
             <Route path="checkout" element={<CheckoutPage />} />
             <Route path="order-success/:orderId" element={<OrderSuccessPage />} />
 
-            {/* Đăng nhập, đăng xuất */}
+            {/* Đăng nhập, đăng xuất, đăng ký */}
             <Route path="login" element={<LoginPage />} />
             <Route path="logout" element={<LogoutPage />} />
             <Route path="/register" element={<RegisterPage />} />

@@ -112,7 +112,7 @@ export default function CartPage() {
           style={styles.btnCheckout}
         >
           💳 Tiến hành thanh toán
-        </button>       
+        </button>
          </div>
       </div>
     </div>
