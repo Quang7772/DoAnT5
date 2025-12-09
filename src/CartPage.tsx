@@ -107,8 +107,13 @@ export default function CartPage() {
               {totalPrice.toLocaleString()} ₫
             </span>
           </h3>
-          <button style={styles.btnCheckout}>Thanh toán ngay</button>
-        </div>
+        <button 
+          onClick={() => navigate("/checkout")} 
+          style={styles.btnCheckout}
+        >
+          💳 Tiến hành thanh toán
+        </button>       
+         </div>
       </div>
     </div>
   );

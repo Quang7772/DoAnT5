@@ -1,5 +1,3 @@
-// src/App.tsx
-
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -19,9 +17,11 @@ import RegisterPage from "./RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
 import ListProducts_SP_Admin from "./ListProducts_SP_Admin";
 import EditProduct from "./EditProduct";
-import { CartProvider } from "./CartContext"; // Context vừa sửa ở Bước 1
-import CartPage from "./CartPage"; // Trang hiển thị giỏ hàng (Xem bước 3)
+import { CartProvider } from "./CartContext";
+import CartPage from "./CartPage";
 import ChatBox from "./ChatBox";
+import CheckoutPage from "./Checkout";
+import OrderSuccessPage from "./OrderSuccess";
 
 const App: React.FC = () => {
   return (
@@ -40,6 +40,10 @@ const App: React.FC = () => {
             <Route path="sanpham/:id" element={<Chitietsanpham />} />
             <Route path="trang2" element={<Trang2 />} />
             <Route path="cart" element={<CartPage />} />
+
+            {/* ====== CHECKOUT ROUTES ====== */}
+            <Route path="checkout" element={<CheckoutPage />} />
+            <Route path="order-success/:orderId" element={<OrderSuccessPage />} />
 
             {/* Đăng nhập, đăng xuất */}
             <Route path="login" element={<LoginPage />} />
