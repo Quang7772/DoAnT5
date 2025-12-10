@@ -58,7 +58,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         );
       }
 
-      // Nếu chưa có → thêm sản phẩm mới
+      // Nếu chưa có → thêm sản phẩm mớiaaa
       return [...prev, { product: fixedProduct, quantity: 1 }];
     });
   };

@@ -15,11 +15,13 @@ const ProductDetail = () => {
 
   const { addToCart } = useCart();
 
-  // ⭐ Format tiền VNĐ
   const formatPrice = (p) =>
-    Number(p).toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+    Number(p).toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
 
-  // ⭐ Lấy sản phẩm + sản phẩm liên quan
+  // ⭐ Fetch sản phẩm + sản phẩm liên quan
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -35,7 +37,6 @@ const ProductDetail = () => {
 
         setProduct(data);
 
-        // ⭐ Lấy sản phẩm liên quan theo category
         if (data.category) {
           const { data: related } = await supabase
             .from("product1")
@@ -82,12 +83,10 @@ const ProductDetail = () => {
       </button>
 
       <div className="detail-wrapper">
-        {/* Hình ảnh sản phẩm */}
         <div className="detail-image">
           <img src={product.image} alt={product.title} />
         </div>
 
-        {/* Thông tin sản phẩm */}
         <div className="detail-info">
           <h2>{product.title}</h2>
 
@@ -95,10 +94,6 @@ const ProductDetail = () => {
 
           <p className="detail-rating">
             ⭐ {product.rating_rate ?? 5} ({product.rating_count ?? 1} đánh giá)
-          </p>
-
-          <p className="detail-desc">
-            {product.description || "Chưa có mô tả cho sản phẩm này."}
           </p>
 
           {/* Chọn số lượng */}
@@ -112,7 +107,6 @@ const ProductDetail = () => {
             />
           </div>
 
-          {/* Nút thêm vào giỏ */}
           <button
             className="btn-add-cart"
             onClick={() => {
@@ -130,7 +124,13 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* Sản phẩm liên quan */}
+      {/* ⭐ KHUNG MÔ TẢ */}
+      <div className="desc-box">
+        <h3>📄 Mô tả sản phẩm</h3>
+        <p>{product.description || "Chưa có mô tả cho sản phẩm này."}</p>
+      </div>
+
+      {/* ⭐ Sản phẩm liên quan */}
       <h3 className="related-title">🔍 Sản phẩm liên quan</h3>
 
       <div className="related-grid">
