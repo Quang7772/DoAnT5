@@ -10,7 +10,7 @@ const ContactPage = () => {
       <div className="contact-info-box">
         <div>
           <h3>📍 Địa chỉ</h3>
-          <p>123 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh</p>
+          <p>474/28 Nguyễn Tri Phương, Quận 10, TP. Hồ Chí Minh</p>
         </div>
 
         <div>

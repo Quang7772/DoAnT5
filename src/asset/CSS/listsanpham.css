@@ -1,147 +1,172 @@
-/* ==============================
-   WRAPPER – PAGE LAYOUT
-============================== */
+/* ============================
+   WRAPPER
+============================ */
 .product-page-wrapper {
-  padding: 40px 20px;
-  background: #f8f9fa;
-  min-height: 100vh;
-  animation: fadeIn 0.3s ease;
+  padding: 20px 40px;
+  max-width: 1400px;
+  margin: auto;
+  font-family: "Segoe UI", sans-serif;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* ============================
+   TITLE
+============================ */
 .page-title {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 30px;
-  color: #333;
+  font-size: 28px;
   font-weight: 700;
-}
-
-.empty-text {
+  margin-bottom: 25px;
   text-align: center;
-  font-size: 1.1rem;
-  color: #444;
-}
-
-/* ==============================
-   PRODUCT GRID
-============================== */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* ==============================
-   PRODUCT CARD
-============================== */
-.product-card {
-  background: #fff;
-  border-radius: 14px;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.25s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.17);
-}
-
-/* ==============================
-   PRODUCT IMAGE
-============================== */
-.product-img-box {
-  width: 100%;
-  height: 230px;
-  background: #f1f1f1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.product-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.product-card:hover .product-img {
-  transform: scale(1.05);
-}
-
-/* ==============================
-   PRODUCT INFO
-============================== */
-.product-info {
-  padding: 16px;
-  text-align: center;
-}
-
-.product-title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #222;
-  margin-bottom: 8px;
-  min-height: 40px;
-  line-height: 1.3;
-}
-
-.product-price {
-  color: #e63946;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.product-rating {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-/* ==============================
-   LOADING
-============================== */
-.loading {
-  text-align: center;
-  margin-top: 50px;
-  font-size: 1.3rem;
   color: #333;
 }
+
+/* ============================
+   FILTER BAR
+============================ */
 .filter-bar {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
   flex-wrap: wrap;
+  gap: 12px;
+  padding: 15px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  margin-bottom: 25px;
 }
 
 .filter-input,
 .filter-select {
-  padding: 8px 12px;
+  padding: 10px 15px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  background: #fafafa;
+  border-radius: 10px;
   font-size: 14px;
+  outline: none;
+  transition: 0.25s;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  border-color: #007bff;
+  background: #fff;
+}
+
+.filter-select {
+  cursor: pointer;
 }
 
 .filter-input.small {
   width: 120px;
 }
 
-.filter-select {
-  background: white;
+/* ============================
+   PRODUCT GRID
+============================ */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+/* ============================
+   PRODUCT CARD
+============================ */
+.product-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 15px;
+  cursor: pointer;
+  transition: 0.25s;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  border-color: #007bff;
+}
+
+/* ============================
+   IMAGE
+============================ */
+.product-img-box {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-img {
+  width: 90%;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.3s;
+}
+
+.product-card:hover .product-img {
+  transform: scale(1.07);
+}
+
+/* ============================
+   INFO
+============================ */
+.product-info {
+  padding-top: 12px;
+}
+
+.product-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+  min-height: 40px;
+}
+
+.product-price {
+  font-size: 17px;
+  color: rgb(220, 40, 40);
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.product-rating {
+  font-size: 13px;
+  color: #777;
+}
+
+/* ============================
+   EMPTY + LOADING
+============================ */
+.empty-text {
+  text-align: center;
+  color: #666;
+  padding: 30px;
+  font-size: 16px;
+}
+
+.loading {
+  text-align: center;
+  color: #333;
+  padding: 30px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+  }
+
+  .product-img-box {
+    height: 180px;
+  }
+
+  .product-card {
+    padding: 12px;
+  }
 }

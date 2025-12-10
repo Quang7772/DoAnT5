@@ -7,6 +7,26 @@ const ListProducts_SP_Admin = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
+  // ================== KIỂM TRA ADMIN ===================
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (!userData) {
+      alert("Bạn cần đăng nhập để truy cập!");
+      navigate("/login");
+      return;
+    }
+
+    const user = JSON.parse(userData);
+
+    // Nếu không phải admin thì đá về trang chủ
+    if (user.role !== "admin") {
+      alert("Bạn không có quyền truy cập trang quản trị!");
+      navigate("/");
+      return;
+    }
+  }, []);
+  // =====================================================
+
   const fetchProducts = async () => {
     const { data, error } = await supabase
       .from("product1")
@@ -42,8 +62,6 @@ const ListProducts_SP_Admin = () => {
 
         <div>
           <h2>Quản lý sản phẩm (Admin)</h2>
-
-          {/* Nút thêm mới trên đầu bảng */}
 
           <table className="product-table">
             <thead>

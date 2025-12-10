@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 
-// --- CẤU HÌNH API ---
-const API_KEY = "AIzaSyAOV-N2JoiOrMs9Kc8Uw8Vhi2WgANH3EcA"; // Key từ code Python của bạn
-const MODEL_NAME = "models/gemini-2.5-flash"; // Đã đổi sang 1.5 để ổn định (bạn có thể đổi lại 2.5)
+// --- CONFIG API ---
+const API_KEY = "AIzaSyAOV-N2JoiOrMs9Kc8Uw8Vhi2WgANH3EcA";
+const MODEL_NAME = "models/gemini-2.5-flash";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/${MODEL_NAME}:generateContent?key=${API_KEY}`;
 
 interface Message {
@@ -11,30 +11,24 @@ interface Message {
 }
 
 const ChatPage = () => {
-  // Quản lý danh sách tin nhắn
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "bot",
-      text: "Xin chào! Tôi là trợ lý ảo AI. Tôi có thể giúp gì cho bạn?",
+      text: "Xin chào! Tôi là Quang AI 🤖\nTôi có thể hỗ trợ gì cho bạn?",
     },
   ]);
 
-  // Quản lý nội dung nhập và trạng thái loading
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false); // ⭐ Bật/Tắt chat widget
 
-  // Ref để tự động cuộn xuống cuối khi có tin nhắn mới
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollToBottom();
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // --- LOGIC GỌI API (Tương đương class ChatService trong Python) ---
+  // --- SEND TO GEMINI ---
   const sendMessageToGemini = async (userMessage: string) => {
     try {
       const payload = {
@@ -47,205 +41,256 @@ const ChatPage = () => {
 
       const response = await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        throw new Error(`Lỗi API: ${response.status} - ${response.statusText}`);
-      }
-
       const data = await response.json();
 
-      // Parse kết quả (Tương đương: data["candidates"][0]["content"]["parts"][0]["text"])
-      const botReply =
-        data.candidates?.[0]?.content?.parts?.[0]?.text || "Không có phản hồi.";
-      return botReply;
-    } catch (error) {
-      console.error("Error:", error);
-      return "❌ Xin lỗi, tôi đang gặp sự cố kết nối.";
+      return (
+        data.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "Không có phản hồi từ AI."
+      );
+    } catch (err) {
+      return "❌ Lỗi kết nối đến máy chủ AI.";
     }
   };
 
-  // --- XỬ LÝ KHI NGƯỜI DÙNG GỬI TIN ---
   const handleSend = async () => {
     if (!input.trim()) return;
 
     const userText = input;
-    setInput(""); // Xóa ô nhập liệu
+    setInput("");
     setIsLoading(true);
 
-    // 1. Thêm tin nhắn người dùng vào list
     setMessages((prev) => [...prev, { role: "user", text: userText }]);
 
-    // 2. Gọi API lấy phản hồi
-    const botResponse = await sendMessageToGemini(userText);
+    const botReply = await sendMessageToGemini(userText);
 
-    // 3. Thêm tin nhắn Bot vào list
-    setMessages((prev) => [...prev, { role: "bot", text: botResponse }]);
+    setMessages((prev) => [...prev, { role: "bot", text: botReply }]);
     setIsLoading(false);
   };
 
-  // Xử lý khi nhấn Enter
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSend();
-    }
+  const handleEnter = (e: any) => {
+    if (e.key === "Enter") handleSend();
   };
 
-  // --- GIAO DIỆN (UI) ---
   return (
-    <div style={styles.container}>
-      <div style={styles.chatBox}>
-        {/* Header */}
-        <div style={styles.header}>
-          <h3>🤖 Chatbot HCE AI</h3>
-        </div>
+    <>
+      {/* --- NÚT TRÒN MỞ CHAT GÓC DƯỚI PHẢI --- */}
+      <button style={styles.floatingBtn} onClick={() => setOpen(!open)}>
+        💬
+      </button>
 
-        {/* Khu vực hiển thị tin nhắn */}
-        <div style={styles.messageList}>
-          {messages.map((msg, index) => (
-            <div
-              key={index}
+      {/* --- CHAT WIDGET --- */}
+      {open && (
+        <div style={styles.widget}>
+          <div style={styles.header}>
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/4712/4712107.png"
+              alt="bot"
+              style={{ width: 32, marginRight: 10 }}
+            />
+            <h4 style={{ margin: 0, fontSize: 16 }}>Quang AI Assistant</h4>
+
+            {/* nút X đóng */}
+            <button onClick={() => setOpen(false)} style={styles.closeBtn}>
+              ✖
+            </button>
+          </div>
+
+          {/* --- MESSAGE LIST --- */}
+          <div style={styles.messages}>
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                style={{
+                  ...styles.msgRow,
+                  justifyContent:
+                    msg.role === "user" ? "flex-end" : "flex-start",
+                }}
+              >
+                {msg.role === "bot" && (
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/4712/4712107.png"
+                    style={styles.avatar}
+                  />
+                )}
+
+                <div
+                  style={{
+                    ...styles.bubble,
+                    background:
+                      msg.role === "user"
+                        ? "linear-gradient(135deg,#4facfe,#00f2fe)"
+                        : "#f1f1f1",
+                    color: msg.role === "user" ? "white" : "black",
+                  }}
+                >
+                  {msg.text.split("\n").map((line, i) => (
+                    <p key={i} style={{ margin: 0 }}>
+                      {line}
+                    </p>
+                  ))}
+                </div>
+
+                {msg.role === "user" && (
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                    style={styles.avatar}
+                  />
+                )}
+              </div>
+            ))}
+
+            {isLoading && (
+              <div style={styles.loadingBubble}>AI đang phản hồi...</div>
+            )}
+
+            <div ref={endRef} />
+          </div>
+
+          {/* INPUT */}
+          <div style={styles.inputArea}>
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleEnter}
+              placeholder="Nhập tin nhắn..."
+              style={styles.input}
+              disabled={isLoading}
+            />
+
+            <button
+              onClick={handleSend}
+              disabled={isLoading}
               style={{
-                ...styles.messageRow,
-                justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
+                ...styles.sendBtn,
+                opacity: isLoading ? 0.5 : 1,
               }}
             >
-              <div
-                style={{
-                  ...styles.bubble,
-                  backgroundColor: msg.role === "user" ? "#007bff" : "#e9ecef",
-                  color: msg.role === "user" ? "#fff" : "#000",
-                }}
-              >
-                {/* Xử lý xuống dòng cho text */}
-                {msg.text.split("\n").map((line, i) => (
-                  <p key={i} style={{ margin: 0, minHeight: "1em" }}>
-                    {line}
-                  </p>
-                ))}
-              </div>
-            </div>
-          ))}
-          {/* Hiển thị loading khi đang chờ */}
-          {isLoading && (
-            <div style={styles.messageRow}>
-              <div
-                style={{
-                  ...styles.bubble,
-                  backgroundColor: "#e9ecef",
-                  fontStyle: "italic",
-                  color: "#666",
-                }}
-              >
-                Đang suy nghĩ...
-              </div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
+              ➤
+            </button>
+          </div>
         </div>
-
-        {/* Khu vực nhập liệu */}
-        <div style={styles.inputArea}>
-          <input
-            style={styles.input}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Nhập tin nhắn..."
-            disabled={isLoading}
-          />
-          <button
-            style={{
-              ...styles.sendButton,
-              backgroundColor: isLoading ? "#ccc" : "#007bff",
-              cursor: isLoading ? "not-allowed" : "pointer",
-            }}
-            onClick={handleSend}
-            disabled={isLoading}
-          >
-            Gửi
-          </button>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
-// --- STYLES (CSS-in-JS) ---
+// --- STYLE CHAT WIDGET ---
 const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "calc(100vh - 100px)", // Trừ đi header của Layout
-    backgroundColor: "#f0f2f5",
-    padding: "20px",
+  floatingBtn: {
+    position: "fixed" as "fixed",
+    bottom: "25px",
+    right: "25px",
+    width: "60px",
+    height: "60px",
+    background: "#2196f3",
+    color: "white",
+    borderRadius: "50%",
+    border: "none",
+    fontSize: "26px",
+    cursor: "pointer",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
   },
-  chatBox: {
-    width: "100%",
-    maxWidth: "600px",
-    height: "100%",
-    backgroundColor: "#fff",
-    borderRadius: "12px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+
+  widget: {
+    position: "fixed" as "fixed",
+    bottom: "100px",
+    right: "25px",
+    width: "350px",
+    height: "480px",
+    background: "white",
+    borderRadius: "18px",
+    boxShadow: "0px 6px 20px rgba(0,0,0,0.2)",
+    overflow: "hidden",
     display: "flex",
     flexDirection: "column" as "column",
-    overflow: "hidden",
   },
+
   header: {
-    padding: "16px",
-    backgroundColor: "#2196F3",
+    height: "58px",
+    background: "#2196f3",
     color: "white",
-    textAlign: "center" as "center",
-    borderBottom: "1px solid #ddd",
+    display: "flex",
+    alignItems: "center",
+    padding: "0 12px",
+    fontWeight: "bold",
   },
-  messageList: {
+
+  closeBtn: {
+    marginLeft: "auto",
+    background: "transparent",
+    border: "none",
+    fontSize: "18px",
+    color: "white",
+    cursor: "pointer",
+  },
+
+  messages: {
     flex: 1,
-    padding: "20px",
+    padding: "12px",
     overflowY: "auto" as "auto",
     display: "flex",
     flexDirection: "column" as "column",
     gap: "10px",
+    background: "#f8fafc",
   },
-  messageRow: {
+
+  msgRow: {
     display: "flex",
-    width: "100%",
+    alignItems: "flex-end",
   },
+
+  avatar: {
+    width: 30,
+    height: 30,
+    borderRadius: "50%",
+    margin: "0 6px",
+  },
+
   bubble: {
-    maxWidth: "75%",
-    padding: "10px 15px",
-    borderRadius: "15px",
-    fontSize: "15px",
+    padding: "10px 14px",
+    borderRadius: "14px",
+    fontSize: "14px",
     lineHeight: "1.4",
-    wordWrap: "break-word" as "break-word",
+    maxWidth: "70%",
   },
+
+  loadingBubble: {
+    padding: "8px 12px",
+    background: "#ddd",
+    borderRadius: "12px",
+    fontSize: "13px",
+    fontStyle: "italic",
+  },
+
   inputArea: {
-    padding: "15px",
-    borderTop: "1px solid #eee",
     display: "flex",
-    gap: "10px",
-    backgroundColor: "#fafafa",
+    gap: "8px",
+    padding: "10px",
+    borderTop: "1px solid #ddd",
+    background: "#fff",
   },
+
   input: {
     flex: 1,
-    padding: "12px",
-    borderRadius: "20px",
+    padding: "10px 14px",
+    borderRadius: "18px",
     border: "1px solid #ccc",
-    outline: "none",
-    fontSize: "16px",
+    fontSize: "14px",
   },
-  sendButton: {
-    padding: "10px 20px",
+
+  sendBtn: {
+    width: "45px",
+    height: "45px",
+    borderRadius: "50%",
+    background: "#2196f3",
     color: "white",
     border: "none",
-    borderRadius: "20px",
-    fontWeight: "bold",
-    fontSize: "16px",
-    transition: "background 0.2s",
+    fontSize: "18px",
+    cursor: "pointer",
   },
 };
 

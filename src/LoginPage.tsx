@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { supabase } from "./supabaseClient"; // ✅ import supabase
+import { supabase } from "./supabaseClient";
 import anhlogo1 from "./asset/CSS/images/keylogin.png";
 import "./asset/CSS/login.css";
 
@@ -21,33 +21,40 @@ const LoginPage = () => {
     }
 
     try {
-      // ✅ Truy vấn Supabase bảng `users`
+      // Lấy user từ Supabase
       const { data, error } = await supabase
         .from("users")
         .select("*")
         .eq("username", username)
-        .eq("password", password) // demo: plain text
+        .eq("password", password)
         .maybeSingle();
 
       if (error) {
-        alert("❌ Lỗi kết nối với server!");
+        alert("❌ Lỗi kết nối server!");
       } else if (!data) {
         alert("❌ Sai tên đăng nhập hoặc mật khẩu!");
       } else {
-        // Lưu thông tin user vào localStorage (dùng trong app)
+        // ⭐ LƯU THÔNG TIN USER VÀ ROLE
         localStorage.setItem(
           "user",
           JSON.stringify({
             username: data.username,
-            isAdmin: data.username === "admin",
+            role: data.role,
+            isAdmin: data.role === "admin", // <- CHECK QUYỀN TRONG DB
           })
         );
+
         alert("✅ Đăng nhập thành công!");
-        navigate("/"); // chuyển về trang chính
+
+        if (data.role === "admin") {
+          navigate("/admin/products"); // chuyển vào trang admin
+        } else {
+          navigate("/"); // user bình thường
+        }
       }
     } catch (err) {
       console.error(err);
-      alert("❌ Có lỗi xảy ra!");
+      alert("❌ Đã xảy ra lỗi!");
     }
 
     setLoading(false);
@@ -57,9 +64,7 @@ const LoginPage = () => {
     <div className="login-wrapper">
       <div className="login-card">
         <img src={anhlogo1} alt="Logo" className="login-logo" />
-
-        <h2 className="login-title">Đăng nhập vào tài khoản</h2>
-        <p className="login-subtitle">Sử dụng tài khoản của bạn để tiếp tục</p>
+        <h2 className="login-title">Đăng nhập</h2>
 
         <form onSubmit={handleLogin} className="login-form">
           <div className="form-group">
@@ -83,11 +88,12 @@ const LoginPage = () => {
           </div>
 
           <button type="submit" disabled={loading}>
-            {loading ? "⏳ Đang xử lý..." : "Đăng nhập"}
+            {loading ? "Đang xử lý..." : "Đăng nhập"}
           </button>
         </form>
+
         <p className="register-link">
-          Bạn chưa có tài khoản? <Link to="/register">Tạo tài khoản mới</Link>
+          Chưa có tài khoản? <Link to="/register">Đăng ký</Link>
         </p>
       </div>
     </div>

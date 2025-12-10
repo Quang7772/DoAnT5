@@ -63,17 +63,6 @@ const Layout = () => {
             <Link to="/" className="logo-modern">
               🛍️ <span>QDH</span> Shop
             </Link>
-
-            <form className="search-box" onSubmit={handleSearch}>
-              <input
-                type="text"
-                placeholder="Tìm sản phẩm, thương hiệu..."
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-              />
-              <button type="submit">🔍</button>
-            </form>
-
             <div className="action-area">
               <Link to="/cart" className="icon-btn">
                 🛒
@@ -137,9 +126,11 @@ const Layout = () => {
             <li>
               <Link to="/trang1">ℹ️ Giới thiệu</Link>
             </li>
-            <li>
-              <Link to="/admin/products">⚙️ Quản trị</Link>
-            </li>
+            {user?.role === "admin" && (
+              <li>
+                <Link to="/admin/products">⚙️ Quản trị</Link>
+              </li>
+            )}
           </ul>
         </div>
       </nav>

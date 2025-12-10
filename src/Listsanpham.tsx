@@ -19,15 +19,14 @@ const ListProducts_SP: React.FC = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("default");
   const [category, setCategory] = useState("all");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const [priceRange, setPriceRange] = useState("all");
 
   const navigate = useNavigate();
 
   // ================= FETCH PRODUCT =================
   useEffect(() => {
     fetchProducts();
-  }, [search, sort, category, minPrice, maxPrice]);
+  }, [search, sort, category, priceRange]);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -42,12 +41,14 @@ const ListProducts_SP: React.FC = () => {
 
       // 🏷 Lọc theo danh mục
       if (category !== "all") {
-        query = query.eq("category", category);
+        query = query.ilike("category", category);
       }
 
-      // 💰 Lọc theo giá
-      if (minPrice !== "") query = query.gte("price", Number(minPrice));
-      if (maxPrice !== "") query = query.lte("price", Number(maxPrice));
+      // 💰 Lọc theo giá bằng dropdown
+      if (priceRange !== "all") {
+        const [min, max] = priceRange.split("-").map(Number);
+        query = query.gte("price", min).lte("price", max);
+      }
 
       // 🎚 Sắp xếp
       if (sort === "price_asc")
@@ -84,18 +85,22 @@ const ListProducts_SP: React.FC = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
 
+        {/* CATEGORY */}
         <select
           className="filter-select"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="all">Tất cả danh mục</option>
-          <option value="apple">Apple</option>
-          <option value="samsung">Samsung</option>
-          <option value="xiaomi">Xiaomi</option>
+          <option value="Apple">Apple</option>
+          <option value="Samsung">Samsung</option>
+          <option value="Xiaomi">Xiaomi</option>
+          <option value="Oppo">Oppo</option>
+          <option value="Realme">Realme</option>
           <option value="other">Khác</option>
         </select>
 
+        {/* SORTING */}
         <select
           className="filter-select"
           value={sort}
@@ -107,20 +112,18 @@ const ListProducts_SP: React.FC = () => {
           <option value="newest">Mới nhất</option>
         </select>
 
-        <input
-          type="number"
-          placeholder="Giá min"
-          className="filter-input small"
-          value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Giá max"
-          className="filter-input small"
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
-        />
+        {/* PRICE RANGE */}
+        <select
+          className="filter-select"
+          value={priceRange}
+          onChange={(e) => setPriceRange(e.target.value)}
+        >
+          <option value="all">Tất cả giá</option>
+          <option value="0-5000000">Dưới 5 triệu</option>
+          <option value="5000000-10000000">5 - 10 triệu</option>
+          <option value="10000000-20000000">10 - 20 triệu</option>
+          <option value="20000000-999999999">Trên 20 triệu</option>
+        </select>
       </div>
 
       {/* LIST PRODUCTS */}
