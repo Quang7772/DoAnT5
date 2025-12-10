@@ -123,3 +123,25 @@
   font-size: 1.3rem;
   color: #333;
 }
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-input,
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.filter-input.small {
+  width: 120px;
+}
+
+.filter-select {
+  background: white;
+}

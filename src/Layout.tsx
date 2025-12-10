@@ -10,8 +10,12 @@ const Layout = () => {
   const { cartItems } = useCart();
   const navigate = useNavigate();
 
-  // ================= Banner State =================
-  const bannerImages = ["/banner1.jpg", "/banner2.jpg", "/banner3.jpg"];
+  // ================= Banner điện thoại =================
+  const bannerImages = [
+    "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1920",
+    "https://images.unsplash.com/photo-1510552776732-03e61cf4b144?q=80&w=1920",
+  ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {

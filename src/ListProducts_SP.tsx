@@ -71,19 +71,6 @@ const ListProducts_SP: React.FC = () => {
 
   return (
     <div className="product-page">
-      {/* ===================== CATEGORY QUICK FILTER ===================== */}
-      <div className="quick-filter">
-        {["all", "apple", "samsung", "xiaomi", "oppo"].map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setFilterCategory(cat)}
-            className={filterCategory === cat ? "active" : ""}
-          >
-            {cat === "all" ? "Tất cả" : cat.toUpperCase()}
-          </button>
-        ))}
-      </div>
-
       {/* ===================== FEATURED PRODUCTS ===================== */}
       <h2 className="section-title">🔥 Sản phẩm nổi bật</h2>
 
