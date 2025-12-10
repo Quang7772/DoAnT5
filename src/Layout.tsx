@@ -1,9 +1,7 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./asset/CSS/layout.css";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useCart } from "./CartContext";
-import { Container } from "react-bootstrap";
 
 const Layout = () => {
   const [user, setUser] = useState(null);
@@ -12,6 +10,21 @@ const Layout = () => {
   const { cartItems } = useCart();
   const navigate = useNavigate();
 
+  // ================= Banner State =================
+  const bannerImages = ["/banner1.jpg", "/banner2.jpg", "/banner3.jpg"];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % bannerImages.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) =>
+      prev === 0 ? bannerImages.length - 1 : prev - 1
+    );
+  };
+
+  // ================= User + Scroll =================
   useEffect(() => {
     const userData = localStorage.getItem("user");
     if (userData) setUser(JSON.parse(userData));
@@ -40,16 +53,14 @@ const Layout = () => {
   return (
     <div className="layout-shop">
       {/* ================= HEADER ================= */}
-      <header className={`header-modern shadow-sm ${scrolled ? "sticky" : ""}`}>
-        <Container>
-          <div className="d-flex align-items-center justify-content-between py-2">
-            {/* LOGO */}
+      <header className={`header-modern ${scrolled ? "sticky" : ""}`}>
+        <div className="container">
+          <div className="header-inner">
             <Link to="/" className="logo-modern">
               🛍️ <span>QDH</span> Shop
             </Link>
 
-            {/* SEARCH BOX */}
-            <form className="search-box d-flex" onSubmit={handleSearch}>
+            <form className="search-box" onSubmit={handleSearch}>
               <input
                 type="text"
                 placeholder="Tìm sản phẩm, thương hiệu..."
@@ -59,9 +70,7 @@ const Layout = () => {
               <button type="submit">🔍</button>
             </form>
 
-            {/* ACTION AREA */}
-            <div className="d-flex align-items-center gap-3 action-area">
-              {/* CART */}
+            <div className="action-area">
               <Link to="/cart" className="icon-btn">
                 🛒
                 {cartItems.length > 0 && (
@@ -69,7 +78,6 @@ const Layout = () => {
                 )}
               </Link>
 
-              {/* USER */}
               {user ? (
                 <>
                   <span className="user-name">👤 {user.username}</span>
@@ -83,18 +91,35 @@ const Layout = () => {
                 </Link>
               )}
 
-              {/* CHAT AI */}
               <Link to="/chat" className="icon-btn">
                 🤖
               </Link>
             </div>
           </div>
-        </Container>
+        </div>
       </header>
 
-      {/* ================= NAV BAR ================= */}
+      {/* ================= BANNER ================= */}
+      <section className="banner">
+        <div className="banner-wrapper">
+          <img
+            src={bannerImages[currentIndex]}
+            className="banner-img"
+            alt="Banner"
+          />
+
+          <button className="slide-btn prev" onClick={prevSlide}>
+            ❮
+          </button>
+          <button className="slide-btn next" onClick={nextSlide}>
+            ❯
+          </button>
+        </div>
+      </section>
+
+      {/* ================= NAVIGATION ================= */}
       <nav className="nav-modern">
-        <Container>
+        <div className="container">
           <ul>
             <li>
               <Link to="/">🏠 Trang chủ</Link>
@@ -112,7 +137,7 @@ const Layout = () => {
               <Link to="/admin/products">⚙️ Quản trị</Link>
             </li>
           </ul>
-        </Container>
+        </div>
       </nav>
 
       {/* ================= CONTENT ================= */}
@@ -122,52 +147,47 @@ const Layout = () => {
 
       {/* ================= FOOTER ================= */}
       <footer className="shop-footer">
-        <Container>
-          <div className="footer-container">
-            <div className="footer-col">
-              <h4>💎 Về QDH Shop</h4>
-              <p>
-                QDH Shop – nơi mua sắm đáng tin cậy, cung cấp sản phẩm chất
-                lượng, giá tốt và dịch vụ tận tâm.
-              </p>
-            </div>
+        <div className="container footer-container">
+          <div className="footer-col">
+            <h4>💎 Về QDH Shop</h4>
+            <p>QDH Shop – nơi mua sắm uy tín với giá tốt và dịch vụ tận tâm.</p>
+          </div>
 
-            <div className="footer-col">
-              <h4>🔗 Liên kết nhanh</h4>
-              <ul>
-                <li>
-                  <Link to="/">Trang chủ</Link>
-                </li>
-                <li>
-                  <Link to="/listsanpham">Sản phẩm</Link>
-                </li>
-                <li>
-                  <Link to="/cart">Giỏ hàng</Link>
-                </li>
-                <li>
-                  <Link to="/login">Đăng nhập</Link>
-                </li>
-              </ul>
-            </div>
+          <div className="footer-col">
+            <h4>🔗 Liên kết nhanh</h4>
+            <ul>
+              <li>
+                <Link to="/">Trang chủ</Link>
+              </li>
+              <li>
+                <Link to="/listsanpham">Sản phẩm</Link>
+              </li>
+              <li>
+                <Link to="/cart">Giỏ hàng</Link>
+              </li>
+              <li>
+                <Link to="/login">Đăng nhập</Link>
+              </li>
+            </ul>
+          </div>
 
-            <div className="footer-col">
-              <h4>📍 Liên hệ</h4>
-              <p>📍 123 Nguyễn Trãi, Hà Nội</p>
-              <p>📞 (024) 1234 5678</p>
-              <p>✉️ support@qdhshop.vn</p>
-            </div>
+          <div className="footer-col">
+            <h4>📍 Liên hệ</h4>
+            <p>📍 123 Nguyễn Trãi, Hà Nội</p>
+            <p>📞 (024) 1234 5678</p>
+            <p>✉️ support@qdhshop.vn</p>
+          </div>
 
-            <div className="footer-col">
-              <h4>🤝 Kết nối</h4>
-              <div className="social-icons">
-                <a href="#">Facebook</a>
-                <a href="#">Instagram</a>
-                <a href="#">YouTube</a>
-                <a href="#">TikTok</a>
-              </div>
+          <div className="footer-col">
+            <h4>🤝 Kết nối</h4>
+            <div className="social-icons">
+              <a href="#">Facebook</a>
+              <a href="#">Instagram</a>
+              <a href="#">YouTube</a>
+              <a href="#">TikTok</a>
             </div>
           </div>
-        </Container>
+        </div>
 
         <div className="footer-bottom">
           © 2025 QDH Shop — All rights reserved. ❤️
